@@ -3,6 +3,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import ReactDOM from 'react-dom/client';
 
 // Import the generated route tree
+// eslint-disable-next-line import/no-unresolved
 import { routeTree } from './routeTree.gen';
 
 // Create a new router instance
