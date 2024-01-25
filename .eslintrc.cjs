@@ -3,7 +3,7 @@ module.exports = {
   env: { browser: true, es2020: true },
   extends: [
     'airbnb',
-    'airbnb/hooks',
+    'airbnb-typescript',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
@@ -13,6 +13,9 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+  },
   plugins: ['react-refresh', '@typescript-eslint'],
   rules: {
     '@tanstack/query/exhaustive-deps': 'error',
@@ -39,13 +42,22 @@ module.exports = {
     // react
     'react/display-name': 'off',
     'react/destructuring-assignment': 'off',
-    'react/jsx-filename-extension': [2, { extensions: ['.js', '.ts', '.tsx'] }],
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/require-default-props': 'off',
     'react/state-in-constructor': 'off',
     // import
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
     'import/order': [
