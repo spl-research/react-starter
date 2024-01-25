@@ -64,6 +64,11 @@ module.exports = {
             position: 'before',
           },
           {
+            pattern: 'vite',
+            group: 'builtin',
+            position: 'before',
+          },
+          {
             pattern: '@assets/**',
             group: 'internal',
           },
