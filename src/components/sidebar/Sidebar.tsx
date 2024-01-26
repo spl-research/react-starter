@@ -16,8 +16,7 @@ import {
   IconSearch,
   IconPlus,
 } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
-// import { UserButton } from '../UserButton/UserButton';
+import { Link, useMatchRoute } from '@tanstack/react-router';
 import classes from './Sidebar.module.css';
 
 const links = [
@@ -37,25 +36,59 @@ const collections = [
   { emoji: '💁‍♀️', label: 'Customers' },
 ];
 
-export function Sidebar() {
-  const mainLinks = links.map((link) => (
+interface NavItemProps {
+  to?: string;
+  icon: typeof IconBulb;
+  label: string;
+  count?: number | string;
+}
+
+export function NavItem({ count, label, to, icon: Icon }: NavItemProps) {
+  return (
     <UnstyledButton
+      to={to}
+      key={to}
       component={Link}
-      to={link.to}
-      key={link.to}
       className={classes.mainLink}
     >
       <div className={classes.mainLinkInner}>
-        <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
-        <span>{link.label}</span>
+        <Icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
+        <span>{label}</span>
       </div>
-      {link.notifications && (
+      {count && (
         <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
-          {link.notifications}
+          {count}
         </Badge>
       )}
     </UnstyledButton>
-  ));
+  );
+}
+
+export function Sidebar() {
+  const matchRoute = useMatchRoute();
+
+  const mainLinks = links.map((link) => {
+    const active = matchRoute({ to: link?.to });
+    return (
+      <UnstyledButton
+        component={Link}
+        to={link.to}
+        key={link.to}
+        className={classes.mainLink}
+        data-active={active || undefined}
+      >
+        <div className={classes.mainLinkInner}>
+          <link.icon size={20} className={classes.mainLinkIcon} stroke={1.5} />
+          <span>{link.label}</span>
+        </div>
+        {link.notifications && (
+          <Badge size="sm" variant="filled" className={classes.mainLinkBadge}>
+            {link.notifications}
+          </Badge>
+        )}
+      </UnstyledButton>
+    );
+  });
 
   const collectionLinks = collections.map((collection) => (
     <Box key={collection.label} className={classes.collectionLink}>
