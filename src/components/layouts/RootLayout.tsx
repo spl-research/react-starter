@@ -1,24 +1,28 @@
+import { theme } from '@common/constant/theme';
+import { MantineProvider } from '@mantine/core';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Link, Outlet } from '@tanstack/react-router';
+import {
+  Outlet,
+  ScrollRestoration,
+  createRootRoute,
+} from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 const queryClient = new QueryClient();
 export function RootLayout() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-      <hr />
-      <Outlet />
-      <TanStackRouterDevtools />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <MantineProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+        <ScrollRestoration />
+        <TanStackRouterDevtools />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </MantineProvider>
   );
 }
+
+export const rootRoute = createRootRoute({
+  component: RootLayout,
+});
