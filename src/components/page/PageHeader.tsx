@@ -1,33 +1,47 @@
-import { Anchor, Box, Breadcrumbs, Group, Title } from '@mantine/core';
+import { Box, BoxProps, Breadcrumbs, Group, Text, Title } from '@mantine/core';
+import { IconChevronRight, IconHome } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 import classes from './PageHeader.module.css';
-
-const items = [
-  { title: 'Mantine', href: '/d' },
-  { title: 'Mantine hooks', href: '/d/settings' },
-].map((item) => (
-  <Anchor href={item.href} key={item.title}>
-    {item.title}
-  </Anchor>
-));
 
 interface PageHeaderProps {
   title?: string;
+  bc?: Record<string, string>[];
 }
 
-export function PageHeader({ title }: PageHeaderProps) {
+export function PageHeader({
+  bc,
+  title,
+  ...props
+}: PageHeaderProps & BoxProps) {
   return (
-    <header className={classes.header}>
-      <Box>
-        <Breadcrumbs>{items}</Breadcrumbs>
-        <Breadcrumbs separator=">" mt="xs">
-          {items}
+    <Box component="header" className={classes.header} p="lg" {...props}>
+      {bc && (
+        <Breadcrumbs
+          mb="md"
+          separator={<IconChevronRight size={12} />}
+          separatorMargin={6}
+        >
+          <Text component={Link} to="/d">
+            <IconHome size={18} />
+          </Text>
+          {bc.map((item) => (
+            <Text
+              component={Link}
+              key={item.title}
+              fw={500}
+              fz={14}
+              to={item.to}
+            >
+              {item.title}
+            </Text>
+          ))}
         </Breadcrumbs>
-      </Box>
-      <div className={classes.inner}>
+      )}
+      <Box className={classes.inner}>
         <Group>
           <Title order={2}>{title}</Title>
         </Group>
-      </div>
-    </header>
+      </Box>
+    </Box>
   );
 }
