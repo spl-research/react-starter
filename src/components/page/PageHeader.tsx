@@ -31,12 +31,13 @@ export function PageHeader({ action, bc, tabs, title }: PageHeaderProps) {
             separator={<IconChevronRight size={12} />}
             separatorMargin={6}
           >
-            <Text component={Link} to="/d">
+            <Text component={Link} c="dimmed" to="/d">
               <IconHome size={18} />
             </Text>
             {bc.map((item) => (
               <Text
                 component={Link}
+                c="dimmed"
                 key={item.title}
                 fw={500}
                 fz={14}
