@@ -1,3 +1,5 @@
+import { SIDEBAR_WIDTH } from '@common/constant/const';
+import { menus } from '@common/constant/menu';
 import {
   TextInput,
   Code,
@@ -9,20 +11,20 @@ import {
   Tooltip,
   rem,
   Box,
+  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
+import { MantineLogo } from '@mantinex/mantine-logo';
 import {
   IconBulb,
-  IconCheckbox,
   IconSearch,
   IconPlus,
+  IconSun,
+  IconMoon,
 } from '@tabler/icons-react';
 import { Link, useMatchRoute } from '@tanstack/react-router';
+import cx from 'clsx';
 import classes from './Sidebar.module.css';
-
-const links = [
-  { icon: IconBulb, label: 'Dashboard', to: '/d', notifications: 4 },
-  { icon: IconCheckbox, label: 'Settings', to: '/d/settings' },
-];
 
 const collections = [
   { emoji: '👍', label: 'Sales' },
@@ -66,8 +68,12 @@ export function NavItem({ count, label, to, icon: Icon }: NavItemProps) {
 
 export function Sidebar() {
   const matchRoute = useMatchRoute();
+  const { setColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme('light', {
+    getInitialValueInEffect: true,
+  });
 
-  const mainLinks = links.map((link) => {
+  const mainLinks = menus.map((link) => {
     const active = matchRoute({ to: link?.to });
     return (
       <UnstyledButton
@@ -99,11 +105,26 @@ export function Sidebar() {
     </Box>
   ));
 
+  const handleChangeColorScheme = () => {
+    setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light');
+  };
+
   return (
-    <nav className={classes.navbar}>
+    <Box component="nav" w={SIDEBAR_WIDTH} className={classes.navbar}>
+      <Group mb="lg" justify="space-between">
+        <MantineLogo size={30} />
+        <ActionIcon
+          size="lg"
+          variant="default"
+          aria-label="Toggle color scheme"
+          onClick={handleChangeColorScheme}
+        >
+          <IconSun className={cx(classes.icon, classes.light)} stroke={1.5} />
+          <IconMoon className={cx(classes.icon, classes.dark)} stroke={1.5} />
+        </ActionIcon>
+      </Group>
       <TextInput
         placeholder="Search"
-        size="xs"
         leftSection={
           <IconSearch
             style={{ width: rem(12), height: rem(12) }}
@@ -114,6 +135,7 @@ export function Sidebar() {
         rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
         styles={{ section: { pointerEvents: 'none' } }}
         mb="sm"
+        size="xs"
       />
 
       <div className={classes.section}>
@@ -136,6 +158,6 @@ export function Sidebar() {
         </Group>
         <div className={classes.collections}>{collectionLinks}</div>
       </div>
-    </nav>
+    </Box>
   );
 }

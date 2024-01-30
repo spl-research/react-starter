@@ -1,3 +1,4 @@
+import { SIDEBAR_WIDTH } from '@common/constant/const';
 import { AppShell } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Outlet, createRoute } from '@tanstack/react-router';
@@ -9,9 +10,9 @@ export function DashboardLayout() {
   return (
     <AppShell
       navbar={{
-        width: 300,
         breakpoint: 'sm',
         collapsed: { mobile: !opened },
+        width: SIDEBAR_WIDTH,
       }}
     >
       <AppShell.Navbar>
