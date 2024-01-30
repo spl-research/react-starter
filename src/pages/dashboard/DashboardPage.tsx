@@ -5,6 +5,7 @@ import { Page } from '@components/page';
 import { Chat1 } from './components/Chart1';
 import { Chart2 } from './components/Chart2';
 import { Chart3 } from './components/Chart3';
+import { Chart4 } from './components/Chart4';
 
 const gridSpan = { base: 12, md: 12, lg: 12, xl: 6 };
 
@@ -14,10 +15,13 @@ export function DashboardPage() {
       <Box h="200vh">
         <Grid>
           <Grid.Col span={gridSpan}>
-            <Chat1 />
+            <Chart2 />
           </Grid.Col>
           <Grid.Col span={gridSpan}>
-            <Chart2 />
+            <Chart4 />
+          </Grid.Col>
+          <Grid.Col span={gridSpan}>
+            <Chat1 />
           </Grid.Col>
           <Grid.Col span={gridSpan}>
             <Chart3 />
